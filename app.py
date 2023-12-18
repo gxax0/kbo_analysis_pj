@@ -73,6 +73,15 @@ def main():
     ax.set_xlabel('지표')
     ax.set_ylabel('값')
     ax.set_title('팀 성적 비교')
+
+    # 한글 글꼴 경로 설정
+    font_path = './NanumGothic.ttf'
+    fontprop = fm.FontProperties(fname=font_path)
+
+    # 그래프에 한글 글꼴 적용
+    plt.rcParams['font.family'] = fontprop.get_name()
+
+    
     st.pyplot(fig)
 
 if __name__ == '__main__':
