@@ -4,12 +4,12 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
-data = pd.read_csv('./data.csv')
-data = data.astype({'연도': 'string'})
+data = pd.read_csv('./kbo_merge_data.csv')
+data = data.astype({'Season': 'string'})
 
 def make_plot(stat): 
     fig = make_subplots(
-        rows= 6, cols= 3,
+        rows= 2, cols= 3,
         subplot_titles=(f"{stat} X WAR", f"{stat} X wRC+", f"{stat} X ERA+", 
                         f"{stat} X SAVE", f"{stat} X RBI", f"{stat} X Lose")
 
