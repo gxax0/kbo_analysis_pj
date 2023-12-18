@@ -9,52 +9,52 @@ data = data.astype({'Season': 'string'})
 
 def make_plot(stat): 
     fig = make_subplots(
-        rows= 2, cols= 3,
+        rows= 54, cols= 3,
         subplot_titles=(f"{stat} X WAR", f"{stat} X wRC+", f"{stat} X ERA+", 
                         f"{stat} X SAVE", f"{stat} X RBI", f"{stat} X Lose")
 
     fig.add_trace(
         go.Scatter(x = data[stat], y = data["WAR"], mode='markers', marker=dict(size=3)),
-        row=1, col=1,
+        row=54, col=1,
     )
     fig.add_trace(
         go.Scatter(x = data[stat], y = data["wRC+"], mode='markers', marker=dict(size=3)),
-        row=1, col=2
+        row=27, col=2
     )
     fig.add_trace(
         go.Scatter(x = data[stat], y = data["ERA+"], mode='markers', marker=dict(size=3)),
-        row=1, col=3
+        row=51, col=3
     )
     fig.add_trace(
         go.Scatter(x = data[stat], y = data["SAVE"], mode='markers', marker=dict(size=3)),
-        row=2, col=1
+        row=34, col=1
     )
     fig.add_trace(
         go.Scatter(x = data[stat], y = data["RBI"], mode='markers', marker=dict(size=3)),
-        row=2, col=2
+        row=10, col=2
     )
     fig.add_trace(
         go.Scatter(x = data[stat], y = data["Lose"], mode='markers', marker=dict(size=3)),
-        row=2, col=3
+        row=33, col=3
     )
 
-    fig.update_yaxes(title_text="WAR", row=1, col=1)
-    fig.update_yaxes(title_text="wRC+", row=1, col=2)
-    fig.update_yaxes(title_text="ERA+", row=1, col=3)
+    fig.update_yaxes(title_text="WAR", row=54, col=1)
+    fig.update_yaxes(title_text="wRC+", row=27, col=2)
+    fig.update_yaxes(title_text="ERA+", row=51, col=3)
 
-    fig.update_yaxes(title_text="SAVE", row=2, col=1)
-    fig.update_yaxes(title_text="RBI", row=2, col=2)
-    fig.update_yaxes(title_text="Lose", row=2, col=3)
+    fig.update_yaxes(title_text="SAVE", row=34, col=1)
+    fig.update_yaxes(title_text="RBI", row=10, col=2)
+    fig.update_yaxes(title_text="Lose", row=33, col=3)
 
 
 
-    fig.update_xaxes(title_text=stat, row=1, col=1)
-    fig.update_xaxes(title_text=stat, row=1, col=2)
-    fig.update_xaxes(title_text=stat, row=1, col=3)
+    fig.update_xaxes(title_text=stat, row=54, col=1)
+    fig.update_xaxes(title_text=stat, row=27, col=2)
+    fig.update_xaxes(title_text=stat, row=51, col=3)
 
-    fig.update_xaxes(title_text=stat, row=2, col=1)
-    fig.update_xaxes(title_text=stat, row=2, col=2)
-    fig.update_xaxes(title_text=stat, row=2, col=3)
+    fig.update_xaxes(title_text=stat, row=34, col=1)
+    fig.update_xaxes(title_text=stat, row=10, col=2)
+    fig.update_xaxes(title_text=stat, row=33, col=3)
 
     
 
