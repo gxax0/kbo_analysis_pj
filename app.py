@@ -1,43 +1,52 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-from plotly.subplots import make_subplots
-import plotly.graph_objects as go
-import plot as pl 
+import seaborn as sns
+import matplotlib.pyplot as plt
+from xgboost import XGBRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+import matplotlib.pyplot as plt
 
 # st.title('')
 st.header('⚾ KBO 한국 프로야구 우승팀 예측 모델 📈')
 st.markdown("""---""")
-data = pd.read_csv('./kbo_merge_data.csv')
-data = data.astype({'Season': 'string'})
+df = pd.read_csv('./kbo_merge_data.csv')
 
-select_stat = st.selectbox(
-    '궁금한 스탯을 고르세요.',
-    data.iloc[:,2:].columns.tolist()
-)
 
-maxi = data.sort_values(by=select_stat, ascending=False).iloc[:3,:][select_stat].tolist()
-year = data.sort_values(by=select_stat, ascending=False).iloc[:3,1].tolist()
-team = data.sort_values(by=select_stat, ascending=False).iloc[:3,0].tolist()
+# 피처 선택
+features = ['ERA+', 'Save', 'WAR', 'Lose']
+X = df[features]
+y = df['Win']
 
-st.write("  ")
-st.write("  ")
-st.write("  ")
+# 훈련 데이터와 테스트 데이터 분리
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-tab1, tab2, tab3 = st.tabs(["우승 요소별 top3 팀🏆", "상관관계📈", "상관계수📊"])
+# XGBoost 회귀 모델 생성
+model = XGBRegressor()
 
-with tab1:
-    st.markdown(f'#### \'{select_stat}\'이(가) 가장 높았던 팀 3개를 알려드릴게요.')
-    st.write("  ")
-    st.markdown(f'##### 🥇 {year[0]}년 {team[0]}: {maxi[0]}')
-    st.markdown(f'##### 🥈 {year[1]}년 {team[1]}: {maxi[1]}')
-    st.markdown(f'##### 🥉 {year[2]}년 {team[2]}: {maxi[2]}')
+# 모델 학습
+model.fit(X_train, y_train)
 
-with tab2:
-    st.markdown(f'#### \'{select_stat}\'와(과) 다른 지표와의 상관관계를 나타낸 시각자료에요.')
-    st.plotly_chart(pl.make_plot(select_stat))
+# 예측
+y_pred = model.predict(X_test)
+# 팀 이름과 예측 승수를 x, y로 설정
+x = team_wins['Team']
+y = team_wins['Win_predicted']
 
-with tab3:
-    st.markdown(f'#### \'{select_stat}\'와(과) 다른 지표와의 상관계수를 큰 순서대로 나타냈어요.')
-    st.markdown(f'※ pearson 상관계수 기준')
-    st.plotly_chart(pl.make_plot2(select_stat))
+# 그래프 사이즈 설정
+plt.figure(figsize=(10, 8))
+
+# 바 차트 생성
+plt.barh(x, y, color='skyblue')
+
+# 그래프 제목 및 x, y 레이블 설정
+plt.title('Team Winning Prediction')
+plt.xlabel('Predicted Wins')
+plt.ylabel('Team')
+
+# y축의 순서를 높은 순위가 위로 오도록 변경
+plt.gca().invert_yaxis()
+
+# 그래프 보여주기
+plt.show()
